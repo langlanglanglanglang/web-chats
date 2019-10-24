@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.room-list {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.room-list li, .room-list a {
+    border-radius: 5px;
+    width: 30%;
+    list-style:none; 
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.room-list li:hover {
+    background: #f9f9f9;
+}
+
+.room-list .room-head {
+    display:flex; 
+    width:70px; 
+    height:70px; 
+    background-color:#ccc; 
+    border-radius:50%; 
+    overflow: hidden; 
+    flex-wrap: wrap; 
+    align-items: center;
+}
+
+.room-list .room-name {
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
+    line-height: 70px; 
+    margin-left: 20px; 
+    font-size: 20px;
+    width: 70%;
+}
+
+.chat-view {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom: 0;
+    margin:0 auto;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 98;
+    box-sizing: border-box;
+}
+
+.show-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right:0;
+    bottom: 0;
+    margin:0 auto;
+    width:1em;
+}
+
+.hidden-icon {
+    position: absolute;
+    left:0;
+    top: auto; 
+    bottom: 0;
+    right:0;
+    width:100%;
+    height: 40px;
+    line-height: 40px;
+    z-index:99;
+    text-align: center;
+}
+
+.hidden-icon:hover {
+    background: #ccc;
+}
+
+.chat-input {
+    height: 30%; 
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.chat-input .input-box{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 17px;
+    position: relative;
+}
+
+.chat-input textarea{
+    height: 100%;
+}
+
+.chat-input .send-btn{
+    position: absolute;
+    top: auto;
+    bottom: 50px;
+    right: 10px;
+}

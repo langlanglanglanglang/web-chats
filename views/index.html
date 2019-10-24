@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Chat</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.12.0/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+<div id="app" :style="'height:' + full_height + 'px;'">
+<el-container style="height: 100%; margin:0;">
+    <el-header height="50px" style="background: #FCF4C1;">
+        项目仅为技术学习练习，后续会不会有扩展...看心情咯（别吐槽UI丑了，这根本就没有UI）
+    </el-header>
+    <el-container>
+        <el-aside width="200px" style="background: #85847E; color: #fff;">
+            <div style="width: 100%;">
+                <img style="height: 70px;width: 70px; border-radius: 50%; margin: 20px auto; display: block;" 
+                    :src="head_url">
+                <div style="text-align: center;">${ name }</div>
+            </div>
+        </el-aside>
+        <el-main style="background: #feffff;position: relative;">
+            <div>
+                <el-button @click="showCreateRoom = true">创建房间</el-button>
+            </div>
+            <ul class="room-list">
+                <div v-if="room_list == null">当前暂无存在房间，您可以创建一个</div>
+                <li v-for="item in room_list" @click="open_room(item.RoomHashName)">
+                    <div class="room-head">
+                        <template v-for="url in item.AllHeadURL">
+                        <img style="height: 20px;width: 20px; border-radius: 50%; margin: 3px auto; display: block;" v-if="url != ''"
+                            :src="url">
+                        </template>
+                    </div>
+                    <span class="room-name">
+                        ${ item.RoomName }
+                    </span>
+                </li>
+                <!-- 占位标签 -->
+                <a></a>
+                <a></a>
+            </ul>
+
+            <!-- -->
+            <transition name="el-zoom-in-top">
+                <div v-show="show_chat" class="chat-view">
+                    <div style="width: 100%;height: 70%;box-sizing: border-box;overflow-y: auto;" ref="message_list">
+                        <template v-for="item in this_message_list">
+                            <div style="padding: 10px;" v-if="item.who == 'he'">
+                                <div style="line-height:40px; height:40px;display: flex; align-items:center;">
+                                    <img style="height: 40px;width: 40px; border-radius: 50%;"
+                                        :src="item.head_url">
+                                    <span style="margin-left: 10px; color: #909399;">${ item.username }</span>
+                                </div>
+                                <div style="margin-left: 40px; padding: 10px; max-width: 90%; width:auto; background: #EBEEF5; border-radius: 5px; box-sizing: border-box;display:inline-block;">
+                                     ${ item.message }
+                                </div>
+                            </div>
+                            <div style="padding: 10px;text-align:right;" v-else>
+                                <div style="line-height:40px; height:40px;display: flex; align-items:center;justify-content: flex-end;">
+                                    <span style="margin-right: 10px; color: #909399;">${ item.username }</span>
+                                    <img style="height: 40px;width: 40px; border-radius: 50%;"
+                                        :src="item.head_url">
+                                </div>
+                                <div style="margin-right: 40px; padding: 10px; width: auto; background: #EBEEF5; border-radius: 5px;display:inline-block;">
+                                    ${ item.message }
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="chat-input"> 
+                        <el-input type="textarea" class="input-box" v-model="this_message" @keyup.enter.native="send" @click.stop="show"> </el-input>
+                        <el-button class="send-btn" type="primary" @click="send" round>发送</el-button>
+                    </div>
+                    <div @click="show_chat=false" class="el-icon-arrow-up hidden-icon"></div>
+                </div>
+            </transition>
+            <i v-show="!show_chat" @click="show_chat=true" class="el-icon-arrow-down show-icon"></i>
+        </el-main>
+    </el-container>
+</el-container>
+
+<!-- 创建房间弹窗 -->
+<el-dialog title="创建房间" :visible.sync="showCreateRoom">
+    <el-form :model="form">
+        <el-form-item label="房间名称">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-button type="primary" @click="create_room">提交</el-button>
+    </el-form>
+</el-dialog>
+
+<!-- 注册用户弹窗 -->
+<el-dialog title="欢迎进入聊天室，初次使用需要输入您的花名"
+           :visible.sync="showRegister"
+           :close-on-click-modal="false"
+           :close-on-press-escape="false"
+           :show-close="false"
+           :center="true">
+    <el-form>
+        <el-form-item label="花名" label-width="100px">
+            <el-input v-model="nick_name" placeholder="请输入花名"></el-input>
+        </el-form-item>
+        <div style="width: 100%;text-align: center;"><el-button type="primary" @click="register">提交</el-button></div>
+    </el-form>
+</el-dialog>
+</div>
+
+<script src="/static/js/vue.js"></script>
+<script src="/static/js/vue-cookies.js"></script>
+<script src="/static/js/axios.min.js"></script>
+<script src="/static/js/element-ui.js"></script>
+<script src="/static/js/index.js"></script>
+</body>
+</html>
